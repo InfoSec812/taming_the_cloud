@@ -1,0 +1,32 @@
+topicprefix = /topic/
+main_collective = mcollective
+collectives = mcollective
+<% if operatingsystem=="Debian" or operatingsystem=="Ubuntu" -%>
+libdir = /usr/share/mcollective/plugins
+<% else -%>
+libdir = /usr/libexec/mcollective
+<% end -%>
+<% if has_variable?("isAgent") -%>
+logfile = /dev/null
+daemonize = 0
+<% else -%>
+factsource = yaml
+plugin.yaml = /etc/mcollective/facts.yaml
+logfile = /var/log/mcollective.log
+daemonize = 1
+<% end -%>
+loglevel = info
+classesfile = /var/lib/puppet/classes.txt
+identity=<%= scope.lookupvar('identity') %>
+
+# Plugins
+securityprovider = psk
+plugin.psk = <%= mcPreSharedKey %>
+registerinterval = 120
+registration = Agentlist
+
+connector = stomp
+plugin.stomp.host = <%= stompServer %>
+plugin.stomp.port = 6163
+plugin.stomp.user = <%= stompUser %>
+plugin.stomp.password = <%= stompPass %>
