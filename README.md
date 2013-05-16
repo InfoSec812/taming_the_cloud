@@ -22,26 +22,20 @@ After cloning the repo, modify the /etc/puppet/puppet.conf file to look like:
             ssldir=/etc/puppet/ssl
             rundir=/var/run/puppet
             factpath=$vardir/lib/facter
-            templatedir=$confdir/templates
             prerun_command=/etc/puppet/etckeeper-commit-pre
             postrun_command=/etc/puppet/etckeeper-commit-post
-            server = lou1
-            certname = lou1
+            server=puppetmaster
+            certname=puppetmaster
     
     [master]
             # These are needed when the puppetmaster is run by passenger
             # and can safely be removed if webrick is used.
             ssl_client_header = SSL_CLIENT_S_DN
             ssl_client_verify_header = SSL_CLIENT_VERIFY
-            modulepath=/etc/puppet/modules
             storeconfigs=true
-            dbadapter=postgresql
-            dbuser=foreman
-            dbpassword=foreman
-            dbserver=localhost
-            dbname=foreman
-            reports=log, foreman
-            certname=lou1
-            server=lou1
+            certname=puppetmaster
+            server=puppetmaster
     [production]
-            manifest = $confdir/manifests/site.pp
+            manifest = $confdir/production/manifests/site.pp
+            modules = $confdir/production/modules
+            templatedir = $confdir/production/templates
