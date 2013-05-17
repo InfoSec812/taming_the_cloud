@@ -14,28 +14,11 @@ repository into a folder called **production** under the **/etc/puppet** directo
     git clone git@github.com:InfoSec812/taming_the_cloud.git production
     
 
-After cloning the repo, modify the **/etc/puppet/puppet.conf** file to look like:
+After cloning the repo, add the following section to the **/etc/puppet/puppet.conf** file:
 
-    [main]
-            logdir=/var/log/puppet
-            vardir=/var/lib/puppet
-            ssldir=/etc/puppet/ssl
-            rundir=/var/run/puppet
-            factpath=$vardir/lib/facter
-            prerun_command=/etc/puppet/etckeeper-commit-pre
-            postrun_command=/etc/puppet/etckeeper-commit-post
-            server=puppetmaster
-            certname=puppetmaster
-    
-    [master]
-            # These are needed when the puppetmaster is run by passenger
-            # and can safely be removed if webrick is used.
-            ssl_client_header = SSL_CLIENT_S_DN
-            ssl_client_verify_header = SSL_CLIENT_VERIFY
-            storeconfigs=true
-            certname=puppetmaster
-            server=puppetmaster
     [production]
             manifest = $confdir/production/manifests/site.pp
             modules = $confdir/production/modules
             templatedir = $confdir/production/templates
+
+The Prezi presentation can be found <a href="http://prezi.com/c91nyhid0gsw/taming-the-cloud/?utm_source=prezi-view&utm_medium=ending-bar&utm_content=Title-link&utm_campaign=ending-bar-tryout" target="__blank">HERE</a>.
