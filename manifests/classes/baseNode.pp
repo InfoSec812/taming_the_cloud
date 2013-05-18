@@ -1,13 +1,13 @@
 class baseNode (
   $puppetHostName,
-  $puppetMasterServer  = "lou1",
+  $puppetMasterServer  = "puppetmaster.zanclus.com",
   $installPuppet       = true,
   $installDhcp         = false,
   $setHosts            = true,
-  $mcollectiveVersion  = "2.0.0-2",
   $puppetEnvironment   = "production",
   $installShellHelpers = true,
   $puppetDebug         = false) {
+
   package { "rubygems": ensure => latest, }
 
   if $operatingsystem == "ubuntu" or $operatingsystem == "debian" {
@@ -43,8 +43,6 @@ class baseNode (
   }
 
   class { mcollective:
-    installClient      => false,
-    mcollectiveVersion => $mcollectiveVersion,
     identity           => $puppetHostName,
   }
 

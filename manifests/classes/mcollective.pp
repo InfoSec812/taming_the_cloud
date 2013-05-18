@@ -1,58 +1,20 @@
 class mcollective (
-  $installMaster      = false,
-  $installClient      = false,
-  $mcPreSharedKey     = "lIjYyxIB09YCusWu2TPriEpoUJLTZZuMaOYvgIgh8LRjOZRUf/K2Xwc1G76AefnFpgxXPe7f4juu",
-  $stompServer        = "216.26.162.226",
-  $stompUser          = "mcollective",
-  $stompPass          = "IatocIwam",
-  $mcollectiveVersion = "2.2.3-1",
-  $agentsVersion      = "4.1.0-1",
+  $mcPreSharedKey       = "tyuKRb1ukClww93BBVFwCg==",
+  $stompServer          = "216.26.162.226",
+  $stompUser            = "mcollective",
+  $stompPass            = "cloudtaming",
+  $mcollectiveVersion   = "2.2.3-1",
+  $agentsVersion        = "4.1.0-1",
+  $stompSSL             = true,
+  $registrationInterval   = 600,
   $identity) {
   include puppetlabs_repo
 
-  if $installMaster {
-    package { "activemq":
-      ensure => latest,
-      notify => Service['activemq'],
-    }
-
-    file { "/etc/activemq/instances-available/main/activemq.xml":
-      ensure  => file,
-      content => template('activemq.erb'),
-      require => Package['activemq'],
-      notify  => Service['activemq'],
-    }
-
-    exec { "linkActiveMQ":
-      command => "/bin/ln -s /etc/activemq/instances-available/main /etc/activemq/instances-enabled/main",
-      creates => "/etc/activemq/instances-enabled/main/activemq.xml",
-      require => File['/etc/activemq/instances-available/main/activemq.xml'],
-      notify  => Service['activemq'],
-    }
-
-    service { "activemq":
-      enable     => true,
-      ensure     => running,
-      require    => Exec['linkActiveMQ'],
-      status     => "ps ax | grep -v grep | grep java | grep activemq",
-      hasrestart => true,
-      notify     => Service['mcollective'],
-    }
+  $stompPort = $stompSSL ? {
+    true  => 61613,
+    default => 61614,
   }
 
-  if $operatingsystem == "debian" or $operatingsystem == "ubuntu" {
-    package { "libstomp-ruby1.8":
-      ensure => latest,
-      alias  => "ruby-stomp",
-      notify => Service['mcollective'],
-    }
-  } else {
-    package { "rubygem-stomp":
-      ensure => latest,
-      alias  => "ruby-stomp",
-      notify => Service['mcollective'],
-    }
-  }
 
   ###
   # ## The following section is a GROSS hack... Let it alone and it should be fine... Ask Deven if you need an explanation, or look
@@ -136,28 +98,5 @@ class mcollective (
     command => "/bin/ln -s /etc/init.d/mcollective/mcollective /etc/rc5.d/S70mcollective",
     unless  => "/bin/ls /etc/rc5.d/ | grep mcollective",
     require => Service['mcollective'],
-  }
-
-  if $installClient {
-    $isAgent = true
-
-    package { "mcollective-client":
-      ensure  => $mcollectiveVersion,
-      require => Package['mcollective'],
-    }
-
-    package { "mcollective-package-common":
-      ensure  => $agentsVersion,
-      require => Package['mcollective-client'],
-    }
-
-    file { "/etc/mcollective/client.cfg":
-      content => template('mcollective-server.cfg.erb'),
-      ensure  => file,
-      owner   => 'root',
-      group   => 'root',
-      mode    => '0644',
-      require => Package['mcollective'],
-    }
   }
 }
