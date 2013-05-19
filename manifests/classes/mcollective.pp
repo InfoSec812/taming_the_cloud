@@ -21,8 +21,8 @@ class mcollective (
   # ## http://comments.gmane.org/gmane.comp.sysutils.puppet.user/29698
   ###
 
-  $yaml_facts = inline_template("<%= scope.to_hash.reject { |k,v| k.to_s =~ /(uptime_seconds|timestamp|free|foreignId|network_lo_dns|netmask_lo_dns|ipaddress_lo_dns)/ }.to_yaml %>"
-  )
+  $yaml_facts = inline_template("<%= scope.to_hash.reject { |k,v| k.to_s =~ /(uptime_seconds|timestamp|free|foreignId|network_lo_dns|netmask_lo_dns|ipaddress_lo_dns)/ }.to_yaml %>")
+
   $safe_facts = shellquote('/bin/echo', $yaml_facts)
 
   exec { "update_facts":
@@ -39,7 +39,6 @@ class mcollective (
   package { "mcollective-common":
     ensure  => $mcollectiveVersion,
     notify  => Service['mcollective'],
-    require => Class['puppetlabs_repo'],
     before  => Exec['instantRepoUpdate'],
   }
 
@@ -47,7 +46,6 @@ class mcollective (
     ensure  => $mcollectiveVersion,
     notify  => Service['mcollective'],
     require => Package['mcollective-common'],
-    before  => Exec['instantRepoUpdate'],
   }
 
   package { "mcollective-package-common":

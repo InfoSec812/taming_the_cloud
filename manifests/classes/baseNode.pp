@@ -60,8 +60,7 @@ class baseNode (
       ensure  => present,
     }
 
-    if ($operatingsystem == "debian" or $operatingsystem == "ubuntu" or $operatingsystem == "Debian" or $operatingsystem == "Ubuntu"
-    ) {
+    if ($operatingsystem == "debian" or $operatingsystem == "ubuntu" or $operatingsystem == "Debian" or $operatingsystem == "Ubuntu") {
       $puppetVersion = "3.1.0-1puppetlabs1"
 
       package { "puppet-common": ensure => $puppetVersion, }
@@ -91,8 +90,7 @@ class baseNode (
 
     package { "tcpdump": ensure => latest, }
 
-    if ($operatingsystem == "debian" or $operatingsystem == "ubuntu" or $operatingsystem == "Debian" or $operatingsystem == "Ubuntu"
-    ) {
+    if ( $operatingsystem == "debian" or $operatingsystem == "ubuntu" or $operatingsystem == "Debian" or $operatingsystem == "Ubuntu" ) {
       package { "dnstop": ensure => latest, }
 
       file { "/etc/bash.bashrc":

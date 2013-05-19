@@ -41,7 +41,7 @@ class ntp {
         }
     }
 
-    cron {"ntptime":
+    cron { "ntptime":
         command     => "/usr/local/bin/syncTime 2>&1 > /dev/null",
         user        => 'root',
         environment => "MAILTO=deven@dns.com",
