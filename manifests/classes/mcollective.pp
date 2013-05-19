@@ -39,7 +39,6 @@ class mcollective (
   package { "mcollective-common":
     ensure  => $mcollectiveVersion,
     notify  => Service['mcollective'],
-    before  => Exec['instantRepoUpdate'],
   }
 
   package { "mcollective":
