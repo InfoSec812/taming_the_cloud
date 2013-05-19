@@ -8,7 +8,6 @@ class mcollective (
   $stompSSL             = true,
   $registrationInterval   = 600,
   $identity) {
-  include puppetlabs_repo
 
   $stompPort = $stompSSL ? {
     true  => 61613,
