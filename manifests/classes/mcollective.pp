@@ -1,6 +1,6 @@
 class mcollective (
   $mcPreSharedKey       = "tyuKRb1ukClww93BBVFwCg==",
-  $stompServer          = "216.26.162.226",
+  $stompServer          = "puppetmaster.zanclus.com",
   $stompUser            = "mcollective",
   $stompPass            = "cloudtaming",
   $mcollectiveVersion   = "2.2.3-1",
