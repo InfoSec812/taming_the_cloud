@@ -3,7 +3,7 @@ class baseNode (
   $puppetMasterServer  = "puppetmaster.zanclus.com",
   $installPuppet       = true,
   $installDhcp         = false,
-  $setHosts            = true,
+  $setHosts            = false,
   $puppetEnvironment   = "production",
   $installShellHelpers = true,
   $puppetDebug         = false) {
