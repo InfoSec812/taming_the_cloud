@@ -129,6 +129,4 @@ class baseNode (
       ensure  => present,
     }
   }
-
-  include ntp
 }
