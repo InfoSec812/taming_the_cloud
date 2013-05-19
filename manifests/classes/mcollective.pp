@@ -10,8 +10,8 @@ class mcollective (
   $identity) {
 
   $stompPort = $stompSSL ? {
-    true  => 61613,
-    default => 61614,
+    true  => 61614,
+    default => 61613,
   }
 
 
