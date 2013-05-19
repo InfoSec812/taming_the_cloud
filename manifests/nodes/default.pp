@@ -1,5 +1,5 @@
 node default {
   class { baseNode:
-    puppetHostName  => $fqdn,
+    puppetHostName  => $clientcert,
   }
 }
